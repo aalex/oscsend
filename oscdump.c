@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 
 
 	for(;;) {
-		lo_server_recv_noblock(server, 0);
+		lo_server_recv_noblock(server, 10); // how long to wait in milli
         //printf(".");
 	}
 
