@@ -60,13 +60,15 @@ int messageHandler(const char *path, const char *types, lo_arg **argv, int argc,
 int main(int argc, char **argv)
 {
 	lo_server server;
-
+    int proto = LO_TCP;
 	if(argc < 2) {
 		usage();
 		exit(1);
 	}
 
-	server = lo_server_new(argv[1], errorHandler);
+	//server = lo_server_new(argv[1], errorHandler);
+    
+	server = lo_server_new_with_proto(argv[1], proto, errorHandler);
 	if(server == NULL) {
 		printf("Could not start a server with port %s\n", argv[1]);
 		exit(1);
