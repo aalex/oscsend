@@ -33,9 +33,9 @@ void usage(void)
 		   "Usage: oscdump port [--tcp] \n"
 		   "Receive OpenSound Control messages via UDP and dump to standard output.\n\n"
 		   "Arguments description\n"
-		   " * port    : specifies the listening port number.\n\n",
+		   " * port    : specifies the listening port number.\n\n"
 		   "Options\n"
-		   " * --help    : prints help and exits.\n\n",
+		   " * --help    : prints help and exits.\n\n"
 		   " * --version    : prints version and exits.\n\n",
 		   VERSION);
 }
@@ -74,8 +74,9 @@ int main(int argc, char **argv)
 		exit(1);
 	}
     if (argc == 3) {
-        if (strncmp(argv[1], "--tcp", 5) == 0) {
+        if (strncmp(argv[2], "--tcp", 5) == 0) {
             proto = LO_TCP;
+            printf("using TCP\n");
         } else {
             proto = LO_UDP;
         }
@@ -95,13 +96,16 @@ int main(int argc, char **argv)
 	if(server == NULL) {
 		printf("Could not start a server with port %s\n", argv[1]);
 		exit(1);
-	}
+	} else {
+		printf("Running a server with port %s\n", argv[1]);
+    }
 
 	lo_server_add_method(server, NULL, NULL, messageHandler, NULL);
 
 
 	for(;;) {
-		lo_server_recv(server);
+		lo_server_recv_noblock(server, 10); // how long to wait in milli
+        //printf(".");
 	}
     // TODO: handle signals such as in http://github.com/aalex/proto-toonloop/blob/signals/sigs.c
 
