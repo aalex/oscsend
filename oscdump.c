@@ -30,10 +30,13 @@ void usage(void)
 {
 	printf("oscdump version %s\n"
 		   "Copyright (C) 2008 Kentaro Fukuchi\n\n"
-		   "Usage: oscdump port\n"
+		   "Usage: oscdump port [--tcp] \n"
 		   "Receive OpenSound Control messages via UDP and dump to standard output.\n\n"
-		   "Description\n"
-		   "port    : specifies the listening port number.\n\n",
+		   "Arguments description\n"
+		   " * port    : specifies the listening port number.\n\n",
+		   "Options\n"
+		   " * --help    : prints help and exits.\n\n",
+		   " * --version    : prints version and exits.\n\n",
 		   VERSION);
 }
 
@@ -57,14 +60,34 @@ int messageHandler(const char *path, const char *types, lo_arg **argv, int argc,
 	return 0;
 }
 
+void print_version()
+{
+    printf("%s\n", VERSION);
+}
+
 int main(int argc, char **argv)
 {
 	lo_server server;
-    int proto = LO_TCP;
+    int proto = 0;
 	if(argc < 2) {
 		usage();
 		exit(1);
 	}
+    if (argc == 3) {
+        if (strncmp(argv[1], "--tcp", 5) == 0) {
+            proto = LO_TCP;
+        } else {
+            proto = LO_UDP;
+        }
+    }
+    if (strncmp(argv[1], "--help", 6) == 0) {
+        usage();
+        exit(0);
+    }
+    if (strncmp(argv[1], "--version", 9) == 0) {
+        print_version();
+        exit(0);
+    }
 
 	//server = lo_server_new(argv[1], errorHandler);
     
