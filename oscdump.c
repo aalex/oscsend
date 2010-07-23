@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 
 	for(;;) {
 		lo_server_recv_noblock(server, 0);
-        printf(".");
+        //printf(".");
 	}
 
 	return 0;
