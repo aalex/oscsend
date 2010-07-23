@@ -103,6 +103,7 @@ int main(int argc, char **argv)
 	for(;;) {
 		lo_server_recv(server);
 	}
+    // TODO: handle signals such as in http://github.com/aalex/proto-toonloop/blob/signals/sigs.c
 
 	return 0;
 }
